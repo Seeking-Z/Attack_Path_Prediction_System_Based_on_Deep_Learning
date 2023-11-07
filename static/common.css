@@ -1,0 +1,78 @@
+/* 样式设置 */
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: Arial, sans-serif;
+            background-color: #f0f0f0; /* 设置页面背景颜色 */
+        }
+
+        #container {
+            display: flex;
+            flex-direction: column;
+        }
+
+        #header {
+            background-color: lightblue;
+            height: 100px; /* 增加顶部栏的高度 */
+            display: flex; /* 使用弹性布局 */
+            justify-content: space-between; /* 左右对齐，块之间等间距分布 */
+            align-items: center; /* 垂直居中对齐 */
+        }
+
+        #logo {
+            width: 200px; /* 设置Logo的宽度 */
+            height: 100%;
+            float: left;
+        }
+
+        #user-info {
+            width: 200px; /* 设置用户信息区域的宽度 */
+            height: 100%;
+            float: right;
+        }
+
+        #menu {
+            width: 200px;
+            background-color: #333;
+            color: white;
+            position: absolute;
+            top: 100px; /* 覆盖在header下方 */
+            left: 0;
+            bottom: 0; /* 底部不写死，允许自动延伸 */
+            display: flex;
+            flex-direction: column;
+            align-items: stretch;
+        }
+
+        #menu ul {
+            list-style-type: none;
+            padding: 0;
+            flex-grow: 1; /* 让菜单栏自动延伸 */
+        }
+
+        #menu li {
+            padding: 10px;
+            text-align: center;
+        }
+
+        #menu a {
+            text-decoration: none;
+            color: white;
+            display: block;
+        }
+
+
+        #content {
+            text-align: center;
+            font-weight: bold; /* 加粗字体 */
+            font-size: 24px; /* 增大字体大小 */
+            width: calc(100% - 400px); /* 设置宽度为总宽度减去400px */
+            flex-grow: 1;
+        }
+
+        #content-right {
+            margin-left: 200px;
+            bottom: 0;
+            width: calc(100% - 200px);
+            overflow: auto; /* 如果内容溢出，启用滚动条 */
+        }

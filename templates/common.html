@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <title>{% block title %}攻击路径预测系统{% endblock %}</title>
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='common.css') }}">
+</head>
+<body>
+<div id="container">
+    <div id="header">
+        <div id="logo">
+            <!-- 放置Logo的内容 -->
+        </div>
+        <div id="content">
+            {% block subtitle %}攻击路径预测系统{% endblock %}
+        </div>
+        <div id="user-info">
+            <!-- 放置用户信息的内容 -->
+        </div>
+    </div>
+
+    <div id="menu">
+        <!-- 左侧菜单栏 -->
+        <ul>
+            <li><a href="/home">主页</a></li>
+            <li><a href="/warning_massage">告警信息</a></li>
+            <li><a href="/systeminfo">系统信息</a></li>
+            <li><a href="/system_setting">系统设置</a></li>
+            <li><a href="/account">账户设置</a></li>
+            <li><a href="#">退出</a></li>
+        </ul>
+    </div>
+    <div id="content-right">
+        {% block container %}<p>test</p>{% endblock %}
+    </div>
+</div>
+</body>
+</html>
