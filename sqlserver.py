@@ -5,7 +5,8 @@ CREATE TABLE login
 (
     id INT PRIMARY KEY IDENTITY(1,1),
     username NVARCHAR(255),
-    password NVARCHAR(255)
+    password NVARCHAR(255),
+    admin int
 )
 """
 
@@ -40,6 +41,7 @@ class Sqlserver:
         except Exception as e:
             self.connection.rollback()
             print(f"Error during insert_data: {str(e)}")
+            return False
 
     def delete_data(self, condition):
         """
@@ -55,6 +57,7 @@ class Sqlserver:
         except Exception as e:
             self.connection.rollback()
             print(f"Error during delete_data: {str(e)}")
+            return False
 
     def update_data(self, data, condition):
         """
@@ -72,6 +75,7 @@ class Sqlserver:
         except Exception as e:
             self.connection.rollback()
             print(f"Error during update_data: {str(e)}")
+            return False
 
     def select_data(self, columns, condition=None):
         """
@@ -92,20 +96,21 @@ class Sqlserver:
             return rows
         except Exception as e:
             print(f"Error during select_data: {str(e)}")
-            return []
+            return False
 
     def close(self):
         """关闭数据库连接"""
         self.connection.close()
 
 
-settings = settings.Settings()
-db = Sqlserver(settings.sqlserver, settings.database, settings.username, settings.password, "login")
+# settings = settings.Settings()
+# db = Sqlserver(settings.sqlserver, settings.database, settings.username, settings.password, "login")
 # in_data = {"username": "admin", "password": "admin123"}
 # db.insert_data("login", in_data)
-# result = db.select_data(["username", "password"])
+# result = db.select_data(["username", "password"], "username='test1'")
 # db.update_data({"password": "test123"}, "username='admin'")
 # db.delete_data("username='admin'")
-db.close()
+# print(result)
+# db.close()
 
 
