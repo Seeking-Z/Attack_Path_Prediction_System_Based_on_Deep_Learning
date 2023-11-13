@@ -1,5 +1,5 @@
 from flask_login import UserMixin
-from werkzeug.security import generate_password_hash, check_password_hash
+from werkzeug.security import check_password_hash
 
 import sqlserver
 import settings
@@ -34,6 +34,14 @@ class User(UserMixin):
                                                 f"{self.select_columns[0]}='{self.id}'")
 
         if check_password_hash(data[0][0], password):
+            return True
+        else:
+            return False
+
+    def is_admin(self):
+        data = self.login_sqlserver.select_data(self.select_columns[3],
+                                                f"{self.select_columns[0]}='{self.id}'")
+        if data[0][0]:
             return True
         else:
             return False

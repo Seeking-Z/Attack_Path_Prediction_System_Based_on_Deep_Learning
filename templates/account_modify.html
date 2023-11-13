@@ -1,0 +1,45 @@
+{% extends 'common.html' %}
+
+{% block title %}账户设置{% endblock %}
+
+{% block css %}
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='account_modify.css') }}">
+{% endblock %}
+
+{% block subtitle %}账户设置{% endblock %}
+
+{% block container %}
+    <form action="/account/modify_user_process" method="post">
+        <input type="hidden" id="user_id" name="user_id" value="{{ user_id }}">
+
+        <!-- 用户名输入框 -->
+        <label for="username">用户名</label>
+        <input type="text" id="username" name="username" value="{{ username }}" required>
+
+        <!-- 新密码输入框 -->
+        <label for="new_password">新密码</label>
+        <input type="password" id="new_password" name="new_password" required>
+
+        <!-- 确认密码输入框 -->
+        <label for="confirm_password">确认密码</label>
+        <input type="password" id="confirm_password" name="confirm_password" required>
+
+        <!-- 是否为管理员（在管理员时显示） -->
+        {% if is_admin %}
+            <label for="admin">是否为管理员</label>
+            <select id="admin" name="admin">
+                <option value="1">是</option>
+                <option value="0">否</option>
+            </select>
+        {% endif %}
+
+        <button type="submit">提交</button>
+    </form>
+    {% with messages = get_flashed_messages(with_categories=true) %}
+        {% if messages %}
+            {% for category, message in messages %}
+                <script>alert('{{ message }}')</script>
+            {% endfor %}
+        {% endif %}
+    {% endwith %}
+{% endblock %}

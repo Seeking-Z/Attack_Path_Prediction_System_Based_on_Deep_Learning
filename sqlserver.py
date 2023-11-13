@@ -8,6 +8,17 @@ CREATE TABLE login
     password NVARCHAR(255),
     admin int
 )
+
+信息表
+CREATE TABLE message
+(
+    id INT PRIMARY KEY IDENTITY(1,1),
+    sip NVARCHAR(255),
+    dip NVARCHAR(255),
+    time DATETIME,
+    status NVARCHAR(255),
+    image NVARCHAR(MAX)
+)
 """
 
 import pyodbc
@@ -105,12 +116,13 @@ class Sqlserver:
 
 # settings = settings.Settings()
 # db = Sqlserver(settings.sqlserver, settings.database, settings.username, settings.password, "login")
-# in_data = {"username": "admin", "password": "admin123"}
-# db.insert_data("login", in_data)
-# result = db.select_data(["username", "password"], "username='test1'")
+# in_data = {"id": None, "username": "test", "password": "test"}
+# db.insert_data(in_data)
+# result = db.select_data(["id", "username", "password"])
 # db.update_data({"password": "test123"}, "username='admin'")
 # db.delete_data("username='admin'")
 # print(result)
+# print(type(result[0][1]))
 # db.close()
 
 

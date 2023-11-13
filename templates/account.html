@@ -1,9 +1,106 @@
 {% extends 'common.html' %}
 
-{% block title %}账户{% endblock %}
+{% block title %}账户设置{% endblock %}
 
-{% block subtitle %}账户{% endblock %}
+{% block css %}
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='account.css') }}">
+{% endblock %}
+
+{% block subtitle %}账户设置{% endblock %}
 
 {% block container %}
-    <p>Hello World</p>
+    <!-- 对所有人可见的模块 -->
+    <div class="module" id="public-module">
+        <h2>账户信息</h2>
+        <table class="custom-table">
+            <thead>
+            <tr>
+                <th>ID</th>
+                <th>用户名</th>
+                <th>密码</th>
+                <th>管理员账户</th>
+                <th>操作</th>
+            </tr>
+            </thead>
+            <tbody>
+            {% for id, username, admin in users %}
+                {% if id == user_id %}
+                    <tr>
+                        <td>{{ id }}</td>
+                        <td>{{ username }}</td>
+                        <td>******</td>
+                        {% if admin == 1 %}
+                            <td>是</td>
+                        {% else %}
+                            <td>否</td>
+                        {% endif %}
+                        <td>
+                            <form action="/account/account_modify" method="post">
+                                <input type="hidden" name="user_id" value="{{ id }}">
+                                <button type="submit" class="modify-button">修改</button>
+                            </form>
+                        </td>
+                    </tr>
+                {% endif %}
+            {% endfor %}
+            </tbody>
+        </table>
+    </div>
+
+    <!-- 需要管理员身份才可见的模块 -->
+    {% if is_admin %}
+        <div class="module" id="admin-module">
+            <div style="display: flex; justify-content: space-between; align-items: center;">
+                <h2>用户列表</h2>
+                <a href="/account/account_create">
+                    <button type="button" class="modify-button">添加账户</button>
+                </a>
+            </div>
+            <table class="custom-table">
+                <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>用户名</th>
+                    <th>密码</th>
+                    <th>管理员账户</th>
+                    <th>操作</th>
+                </tr>
+                </thead>
+                <tbody>
+                {% for id, username, admin in users %}
+                    <tr>
+                        <td>{{ id }}</td>
+                        <td>{{ username }}</td>
+                        <td>******</td>
+                        {% if admin == 1 %}
+                            <td>是</td>
+                        {% else %}
+                            <td>否</td>
+                        {% endif %}
+                        <td class="button-container">
+                            <form action="/account/account_modify" method="post">
+                                <input type="hidden" name="user_id" value="{{ id }}">
+                                <button type="submit" class="modify-button">修改</button>
+                            </form>
+                            <form action="/account/account_delete" method="post">
+                                <input type="hidden" name="user_id" value="{{ id }}">
+                                <button type="submit" class="modify-button" onclick="return confirmDelete()">删除
+                                </button>
+                            </form>
+                        </td>
+                    </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    {% endif %}
+    <script>
+        function confirmDelete() {
+            if (confirm("确定要删除吗？")) {
+                document.getElementById('delete-form').submit();
+            } else {
+                return false;
+            }
+        }
+    </script>
 {% endblock %}

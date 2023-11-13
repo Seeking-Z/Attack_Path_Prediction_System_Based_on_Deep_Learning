@@ -10,3 +10,6 @@ class Settings:
 
         self.login_and_user_table = 'login'
         self.login_and_user_table_columns = ['id', 'username', 'password', 'admin']
+
+        self.message_table = 'message'
+        self.message_table_columns = ['id', 'sip', 'dip', 'time', 'status']
