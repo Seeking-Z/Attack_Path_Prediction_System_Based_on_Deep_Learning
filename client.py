@@ -5,7 +5,7 @@ import settings
 
 # 连接数据库
 settings = settings.Settings()
-test_sql = sqlserver.Sqlserver(settings.sqlserver, settings.database, settings.username, settings.password, settings.message_table)
+test_sql = sqlserver.Sqlserver(settings.sqlserver, settings.database, settings.sql_username, settings.sql_password, settings.message_table)
 
 
 # 示例插入时间数据

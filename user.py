@@ -11,8 +11,8 @@ class User(UserMixin):
     def __init__(self, username):
         """初始化用户类"""
         setting = settings.Settings()
-        self.login_sqlserver = sqlserver.Sqlserver(setting.sqlserver, setting.database, setting.username,
-                                                   setting.password,
+        self.login_sqlserver = sqlserver.Sqlserver(setting.sqlserver, setting.database, setting.sql_username,
+                                                   setting.sql_password,
                                                    setting.login_and_user_table)
         self.id = None
         self.username = username
@@ -52,8 +52,8 @@ class User(UserMixin):
     @staticmethod
     def get(user_id):
         setting = settings.Settings()
-        login_sqlserver = sqlserver.Sqlserver(setting.sqlserver, setting.database, setting.username,
-                                              setting.password,
+        login_sqlserver = sqlserver.Sqlserver(setting.sqlserver, setting.database, setting.sql_username,
+                                              setting.sql_password,
                                               setting.login_and_user_table)
         select_columns = setting.login_and_user_table_columns
         data = login_sqlserver.select_data(select_columns[1],

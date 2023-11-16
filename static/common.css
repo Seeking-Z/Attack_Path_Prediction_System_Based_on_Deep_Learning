@@ -1,53 +1,68 @@
 /* 样式设置 */
+        html,
         body {
+            height: 100%;
             margin: 0;
-            padding: 0;
+        }
+
+        body {
             font-family: Arial, sans-serif;
             background-color: #f0f0f0; /* 设置页面背景颜色 */
+            display: flex;
+            flex-direction: column;
         }
 
         #container {
             display: flex;
-            flex-direction: column;
+            flex: 1;
+            overflow: hidden; /* 防止内容溢出 */
+            flex-direction: column; /* 确保子元素垂直排列 */
         }
 
         #header {
             background-color: lightblue;
             height: 100px; /* 增加顶部栏的高度 */
+            /* float: left; */ /* 不使用浮动 */
             display: flex; /* 使用弹性布局 */
             justify-content: space-between; /* 左右对齐，块之间等间距分布 */
             align-items: center; /* 垂直居中对齐 */
+            width: 100%; /* 100%宽度 */
+            flex: 0 0 auto; /* 不允许压缩，独占一行 */
         }
 
         #logo {
             width: 200px; /* 设置Logo的宽度 */
-            height: 100%;
-            float: left;
         }
 
         #user-info {
             width: 200px; /* 设置用户信息区域的宽度 */
-            height: 100%;
-            float: right;
+        }
+
+        #content {
+            text-align: center;
+            font-weight: bold; /* 加粗字体 */
+            font-size: 24px; /* 增大字体大小 */
+            flex: 1;
+            padding: 20px;
+        }
+
+        #menu-container {
+            display: flex;
+            flex: 1;
+            overflow: hidden; /* 防止内容溢出 */
         }
 
         #menu {
             width: 200px;
             background-color: #333;
             color: white;
-            position: absolute;
-            top: 100px; /* 覆盖在header下方 */
-            left: 0;
-            bottom: 0; /* 底部不写死，允许自动延伸 */
-            display: flex;
-            flex-direction: column;
-            align-items: stretch;
+            overflow-y: auto; /* 如果内容溢出，启用垂直滚动条 */
+            flex-shrink: 0; /* 防止菜单栏缩小 */
         }
 
         #menu ul {
             list-style-type: none;
             padding: 0;
-            flex-grow: 1; /* 让菜单栏自动延伸 */
         }
 
         #menu li {
@@ -61,18 +76,8 @@
             display: block;
         }
 
-
-        #content {
-            text-align: center;
-            font-weight: bold; /* 加粗字体 */
-            font-size: 24px; /* 增大字体大小 */
-            width: calc(100% - 400px); /* 设置宽度为总宽度减去400px */
-            flex-grow: 1;
-        }
-
         #content-right {
-            margin-left: 200px;
-            bottom: 0;
-            width: calc(100% - 200px);
-            overflow: auto; /* 如果内容溢出，启用滚动条 */
+            flex: 1;
+            padding: 20px;
+            overflow-y: auto; /* 如果内容溢出，启用垂直滚动条 */
         }

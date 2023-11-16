@@ -1,64 +1,48 @@
 <!DOCTYPE html>
 <html lang="zh-CN">
+
 <head>
-    <meta charset="UTF-8">
-    <title>攻击路径预测系统</title>
-    <link rel="stylesheet" type="text/css" href="../static/common.css">
-    <link rel="stylesheet" type="text/css" href="../static/account.css">
+    <meta charset="UTF-8" content="text/html">
+    <title>{% block title %}攻击路径预测系统{% endblock %}</title>
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='common.css') }}">
+    {% block expand %}
+
+    {% endblock %}
 </head>
+
 <body>
-<div id="container">
-    <div id="header">
-        <div id="logo">
-            <!-- 放置Logo的内容 -->
+    <div id="container">
+        <div id="header">
+            <div id="logo">
+                <!-- 放置Logo的内容 -->
+            </div>
+            <div id="content">
+                {% block subtitle %}攻击路径预测系统{% endblock %}
+            </div>
+            <div id="user-info">
+                <!-- 放置用户信息的内容 -->
+            </div>
         </div>
-        <div id="content">
-            攻击路径预测系统
-        </div>
-        <div id="user-info">
-            <!-- 放置用户信息的内容 -->
+
+        <div id="menu-container">
+            <div id="menu">
+                <!-- 左侧菜单栏 -->
+                <ul>
+                    <li><a href="/home">主页</a></li>
+                    <li><a href="/warning_massage">告警信息</a></li>
+                    <li><a href="/systeminfo">系统信息</a></li>
+                    <li><a href="/system_setting">系统设置</a></li>
+                    <li><a href="/account">账户设置</a></li>
+                    <li><a href="/logout">退出</a></li>
+                    <!-- 重复项目或添加其他项目 -->
+                </ul>
+            </div>
+            <div id="content-right">
+                <!-- 放置页面内容 -->
+                {% block content %}<p>test</p>{% endblock %}
+            </div>
         </div>
     </div>
-
-    <div id="menu">
-        <!-- 左侧菜单栏 -->
-        <ul>
-            <li><a href="/home">主页</a></li>
-            <li><a href="/warning_massage">告警信息</a></li>
-            <li><a href="/systeminfo">系统信息</a></li>
-            <li><a href="/system_setting">系统设置</a></li>
-            <li><a href="/account">账户设置</a></li>
-            <li><a href="#">退出</a></li>
-        </ul>
-    </div>
-    <div id="content-right">
-        <!--放置页面内容-->
-        <form action="/modify_user" method="post">
-            <!-- 用户名输入框 -->
-            <label for="username">用户名</label>
-            <input type="text" id="username" name="username" value="{{ original_username }}" required>
-
-            <!-- 新密码输入框 -->
-            <label for="new_password">新密码</label>
-            <input type="password" id="new_password" name="new_password" required>
-
-            <!-- 确认密码输入框 -->
-            <label for="confirm_password">确认密码</label>
-            <input type="password" id="confirm_password" name="confirm_password" required>
-
-            <!-- 是否为管理员（在管理员时显示） -->
-
-                <label for="admin">是否为管理员</label>
-                <select id="admin" name="admin">
-                    <option value="yes">是</option>
-                    <option value="no">否</option>
-                </select>
-
-
-            <button type="submit">提交</button>
-        </form>
-
-    </div>
-</div>
 </body>
+
 </html>

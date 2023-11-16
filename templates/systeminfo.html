@@ -2,8 +2,32 @@
 
 {% block title %}系统信息{% endblock %}
 
+{% block expand %}
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='systeminfo.css') }}">
+    <script src="{{ url_for('static', filename='chart.js/dist/chart.umd.js') }}"></script>
+{% endblock %}
+
 {% block subtitle %}系统信息{% endblock %}
 
 {% block container %}
-    <p>Hello World</p>
+    <div class="system-status">
+        <div class="row">
+            <div class="canvas-container">
+                <canvas id="cpuChart" width="400" height="200"></canvas>
+            </div>
+            <div class="canvas-container">
+                <canvas id="memoryChart" width="400" height="200"></canvas>
+            </div>
+        </div>
+        <div class="row">
+            <div class="canvas-container">
+                <canvas id="gpuChart" width="400" height="200"></canvas>
+            </div>
+            <div class="canvas-container">
+                <canvas id="networkChart" width="400" height="200"></canvas>
+            </div>
+        </div>
+    </div>
+
+    <script src="{{ url_for('static', filename='systeminfo.js') }}"></script>
 {% endblock %}

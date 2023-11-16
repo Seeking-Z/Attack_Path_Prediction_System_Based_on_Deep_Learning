@@ -13,8 +13,8 @@ account_blueprint = Blueprint('account', __name__)
 def account():
     is_admin = current_user.is_admin()
     setting = settings.Settings()
-    login_sqlserver = sqlserver.Sqlserver(setting.sqlserver, setting.database, setting.username,
-                                          setting.password,
+    login_sqlserver = sqlserver.Sqlserver(setting.sqlserver, setting.database, setting.sql_username,
+                                          setting.sql_password,
                                           setting.login_and_user_table)
     select_columns = setting.login_and_user_table_columns
     select_columns.pop(2)
@@ -28,8 +28,8 @@ def account():
 @login_required
 def account_modify():
     setting = settings.Settings()
-    login_sqlserver = sqlserver.Sqlserver(setting.sqlserver, setting.database, setting.username,
-                                          setting.password,
+    login_sqlserver = sqlserver.Sqlserver(setting.sqlserver, setting.database, setting.sql_username,
+                                          setting.sql_password,
                                           setting.login_and_user_table)
     select_columns = setting.login_and_user_table_columns
     is_admin = current_user.is_admin()
@@ -63,8 +63,8 @@ def modify_user_process():
         return render_template('account_modify.html', user_id=user_id, username=username, is_admin=is_admin)
     else:
         setting = settings.Settings()
-        login_sqlserver = sqlserver.Sqlserver(setting.sqlserver, setting.database, setting.username,
-                                              setting.password,
+        login_sqlserver = sqlserver.Sqlserver(setting.sqlserver, setting.database, setting.sql_username,
+                                              setting.sql_password,
                                               setting.login_and_user_table)
         columns = setting.login_and_user_table_columns
         password = generate_password_hash(new_password)
@@ -93,8 +93,8 @@ def account_create():
 @login_required
 def account_delete():
     setting = settings.Settings()
-    login_sqlserver = sqlserver.Sqlserver(setting.sqlserver, setting.database, setting.username,
-                                          setting.password,
+    login_sqlserver = sqlserver.Sqlserver(setting.sqlserver, setting.database, setting.sql_username,
+                                          setting.sql_password,
                                           setting.login_and_user_table)
     columns = setting.login_and_user_table_columns
     is_admin = current_user.is_admin()

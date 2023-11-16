@@ -1,0 +1,18 @@
+.system-status {
+    display: flex;
+    flex-direction: column;
+}
+
+.row {
+    display: flex;
+}
+
+.canvas-container {
+    width: 50%; /* 让每个 canvas 占据一半的宽度 */
+    max-width: 700px; /* 控制最大宽度 */
+}
+
+canvas {
+    width: 100%; /* 让 canvas 撑满其容器 */
+    height: auto; /* 高度按比例调整 */
+}
