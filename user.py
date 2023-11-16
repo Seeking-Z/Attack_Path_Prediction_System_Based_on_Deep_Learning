@@ -39,6 +39,7 @@ class User(UserMixin):
             return False
 
     def is_admin(self):
+        """验证是否是管理员"""
         data = self.login_sqlserver.select_data(self.select_columns[3],
                                                 f"{self.select_columns[0]}='{self.id}'")
         if data[0][0]:
@@ -47,10 +48,12 @@ class User(UserMixin):
             return False
 
     def get_id(self):
+        """获取用户id"""
         return self.id
 
     @staticmethod
     def get(user_id):
+        """获取指定id的用户实例"""
         setting = settings.Settings()
         login_sqlserver = sqlserver.Sqlserver(setting.sqlserver, setting.database, setting.sql_username,
                                               setting.sql_password,
