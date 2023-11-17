@@ -8,11 +8,13 @@ login_blueprint = Blueprint('login', __name__)
 
 @login_blueprint.route('/login')
 def login():
+    """跳转到登录页面"""
     return render_template('login.html')
 
 
 @login_blueprint.route('/login/login_process', methods=['POST'])
 def login_process():
+    """登录进程"""
     username = request.form['username']
     password = request.form['password']
     the_user = user.User(username)
@@ -29,5 +31,6 @@ def login_process():
 @login_blueprint.route('/logout')
 @login_required
 def logout():
+    """用户登出"""
     logout_user()
     return redirect('/login')

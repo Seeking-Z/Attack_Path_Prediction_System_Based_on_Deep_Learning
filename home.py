@@ -7,4 +7,5 @@ home_blueprint = Blueprint('home', __name__)
 @home_blueprint.route('/home')
 @login_required
 def home():
+    """跳转到主页"""
     return render_template('home.html')

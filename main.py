@@ -1,4 +1,4 @@
-from flask import Flask, redirect, url_for
+from flask import Flask, redirect
 from flask_login import LoginManager
 
 import user
@@ -30,7 +30,8 @@ def load_user(user_id):
 
 @app.route('/')
 def index():
-    return redirect(url_for('login.login'))
+    """默认跳转到登录界面"""
+    return redirect('/login')
 
 
 if __name__ == "__main__":

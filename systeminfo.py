@@ -9,12 +9,14 @@ systeminfo_blueprint = Blueprint('systeminfo', __name__)
 @systeminfo_blueprint.route('/systeminfo')
 @login_required
 def systeminfo():
+    """跳转到系统信息界面"""
     return render_template('systeminfo.html')
 
 
 @systeminfo_blueprint.route('/api/systeminfo')
 @login_required
 def systeminfo_api():
+    """获取系统信息的api"""
     cpu_percent = psutil.cpu_percent(interval=1)
     memory_percent = psutil.virtual_memory().percent
 

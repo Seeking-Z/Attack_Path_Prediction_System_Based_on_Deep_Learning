@@ -7,4 +7,5 @@ warning_message_blueprint = Blueprint('warning_message', __name__)
 @warning_message_blueprint.route('/warning_massage')
 @login_required
 def warning_message():
+    """跳转到告警页面"""
     return render_template('warning_message.html')

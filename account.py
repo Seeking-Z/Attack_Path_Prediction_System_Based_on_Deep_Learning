@@ -11,6 +11,7 @@ account_blueprint = Blueprint('account', __name__)
 @account_blueprint.route('/account')
 @login_required
 def account():
+    """进入账户设置页面"""
     is_admin = current_user.is_admin()
     setting = settings.Settings()
     login_sqlserver = sqlserver.Sqlserver(setting.sqlserver, setting.database, setting.sql_username,
@@ -27,6 +28,7 @@ def account():
 @account_blueprint.route('/account/account_modify', methods=['POST'])
 @login_required
 def account_modify():
+    """进入账户修改页面"""
     setting = settings.Settings()
     login_sqlserver = sqlserver.Sqlserver(setting.sqlserver, setting.database, setting.sql_username,
                                           setting.sql_password,
@@ -46,6 +48,7 @@ def account_modify():
 @account_blueprint.route('/account/modify_user_process', methods=['POST'])
 @login_required
 def modify_user_process():
+    """账户修改进程"""
     is_admin = current_user.is_admin()
     username = request.form['username']
     new_password = request.form['new_password']
@@ -86,12 +89,14 @@ def modify_user_process():
 @account_blueprint.route('/account/account_create')
 @login_required
 def account_create():
+    """创建账户，实际上也通过修改用户模块。"""
     return render_template('account_modify.html', user_id=None, is_admin=1)
 
 
 @account_blueprint.route('/account/account_delete', methods=['POST'])
 @login_required
 def account_delete():
+    """删除用户"""
     setting = settings.Settings()
     login_sqlserver = sqlserver.Sqlserver(setting.sqlserver, setting.database, setting.sql_username,
                                           setting.sql_password,
@@ -102,7 +107,6 @@ def account_delete():
         user_id = request.form['user_id']
     else:
         user_id = current_user.id
-    test = current_user.id
     if current_user.id == int(user_id):
         return "<script>alert('无法删除当前使用的账户');location.href='../account'</script>"
     else:
