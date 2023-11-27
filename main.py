@@ -23,11 +23,13 @@ app.register_blueprint(account_blueprint)
 login_manager = LoginManager(app)
 
 
+# 获取用户
 @login_manager.user_loader
 def load_user(user_id):
     return user.User.get(user_id)
 
 
+# 默认路由
 @app.route('/')
 def index():
     """默认跳转到登录界面"""

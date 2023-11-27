@@ -14,7 +14,9 @@ CREATE TABLE message
 (
     id INT PRIMARY KEY IDENTITY(1,1),
     sip NVARCHAR(255),
+    sport NVARCHAR(6),
     dip NVARCHAR(255),
+    dport NVARCHAR(6),
     time DATETIME,
     status NVARCHAR(255),
     image NVARCHAR(MAX)
@@ -114,15 +116,17 @@ class Sqlserver:
         self.connection.close()
 
 
-# settings = settings.Settings()
-# db = Sqlserver(settings.sqlserver, settings.database, settings.username, settings.password, "login")
-# in_data = {"id": None, "username": "test", "password": "test"}
-# db.insert_data(in_data)
+settings = settings.Settings()
+db = Sqlserver(settings.sqlserver, settings.database, settings.sql_username, settings.sql_password, "login")
+#   初始账号密码  admin zadmin2023
+in_data = {"username": "admin",
+           "password": "scrypt:32768:8"
+                       ":1$CwZM7K9pzo4ecW6i$2584b1fba5092c65a70a25db6d8befc5bbb2656d3ef24ad3fd4c264a155a01b560ca4e92c375efc8d3be7f4cfb54cff50247bee8f218c394cdbe40204905eb8d",
+           "admin": 1}
+db.insert_data(in_data)
 # result = db.select_data(["id", "username", "password"])
 # db.update_data({"password": "test123"}, "username='admin'")
 # db.delete_data("username='admin'")
 # print(result)
 # print(type(result[0][1]))
 # db.close()
-
-

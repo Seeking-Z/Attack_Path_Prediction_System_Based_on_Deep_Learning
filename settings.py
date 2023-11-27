@@ -12,4 +12,4 @@ class Settings:
         self.login_and_user_table_columns = ['id', 'username', 'password', 'admin']
 
         self.message_table = 'message'
-        self.message_table_columns = ['id', 'sip', 'dip', 'time', 'status']
+        self.message_table_columns = ['id', 'sip', 'sport', 'dip', 'dport', 'time', 'status', 'image']
