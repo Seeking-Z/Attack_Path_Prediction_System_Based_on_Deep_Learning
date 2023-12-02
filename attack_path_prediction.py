@@ -1,3 +1,4 @@
+import pickle
 import networkx as nx
 import matplotlib.pyplot as plt
 import subprocess
@@ -5,6 +6,7 @@ import datetime
 import ids
 import settings
 import sqlserver
+import prediction
 
 
 def data_processing(data):
@@ -23,7 +25,7 @@ def data_processing(data):
 def attack_path_prediction():
     """路径预测子线程函数"""
     # 执行命令
-    process = subprocess.Popen(['./kdd99extractor', '-e'], stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+    process = subprocess.Popen(['./model_and_extractor/kdd99extractor', '-e'], stdout=subprocess.PIPE, stderr=subprocess.PIPE)
 
     # 初始化
     setting = settings.Settings()
@@ -31,9 +33,18 @@ def attack_path_prediction():
                                           setting.sql_password,
                                           setting.message_table)
     columns = setting.message_table_columns
+    g = nx.Graph()
 
     # 实时读取命令输出,并将数据进行处理预测后存入数据库
     while True:
+        try:
+            with open('gdata.pickle', 'rb') as file:
+                g = pickle.load(file)
+        except FileNotFoundError:
+            print('未找到储存文件，使用空白实例')
+        except:
+            print('未知错误，无法读取实例。使用空白实例')
+
         output = process.stdout.readline()
         if output == b'' and process.poll() is not None:
             break
@@ -42,10 +53,10 @@ def attack_path_prediction():
             feature, sip, sport, dip, dport, time = data_processing(data)  # 接收数据并转换为需要的形式
             status = ids.get_label(feature)  # 获取入侵检测返回的状态
 
-            if status is 'normal':
-                pass  # 只传入数据
+            if status is 'Normal':
+                prediction.prediction(g, sip, dip, status, setting)  # 只传入数据
             else:
-                image = ''  # 返回攻击路径预测的图片
+                image = prediction.prediction(g, sip, dip, status, setting)  # 返回攻击路径预测的图片
 
                 in_data = {
                     columns[1]: sip,
@@ -58,8 +69,14 @@ def attack_path_prediction():
                 }
                 login_sqlserver.insert_data(in_data)
 
+        try:
+            with open('gdata.pickle', 'wb') as file:
+                pickle.dump(g, file)
+        except:
+            print('未知错误，无法储存实例。')
+
     login_sqlserver.close()
-    print(f"致命错误，路径预测子线程已停止。退出代码:{process.poll()}。程序已停止。")
+    print(f"致命错误，路径预测子线程已停止。子线程退出代码:{process.poll()}。程序已停止。")
 
     exit(1)
 

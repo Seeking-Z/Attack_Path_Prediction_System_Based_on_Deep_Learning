@@ -1,3 +1,16 @@
+"""
+Normal: 正常记录
+
+DOS: 拒绝服务攻击
+
+Probing: 监视和其他探测活动
+
+R2L: 来自远程机器的非法访问
+
+U2R: 普通用户对本地超级用户特权的非法访问
+"""
+
+
 class Settings:
     """系统设置"""
 
@@ -13,3 +26,13 @@ class Settings:
 
         self.message_table = 'message'
         self.message_table_columns = ['id', 'sip', 'sport', 'dip', 'dport', 'time', 'status', 'image']
+
+        """每种攻击的被入侵概率"""
+        self.status = {
+            'Normal': 0,
+            'DOS': 0.1,
+            'Probing': 0.05,
+            'R2L': 0.5,
+            'U2R': 0.8,
+            'Down': 1  # 被攻陷
+        }

@@ -19,7 +19,7 @@ service = {'IRC': 0, 'X11': 1, 'Z39_50': 2, 'aol': 3, 'auth': 4, 'bgp': 5, 'cour
 # 连接正常或错误的状态
 flag = {'OTH': 0, 'REJ': 1, 'RSTO': 2, 'RSTOS0': 3, 'RSTR': 4, 'S0': 5, 'S1': 6, 'S2': 7, 'S3': 8, 'SF': 9, 'SH': 10}
 # 标签
-labels = ['DOS', 'Probing', 'R2L', 'U2R', 'normal']
+labels = ['DOS', 'Probing', 'R2L', 'U2R', 'Normal']
 
 
 # 定义模型
