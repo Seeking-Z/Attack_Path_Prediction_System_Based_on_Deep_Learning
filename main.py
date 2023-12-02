@@ -1,6 +1,10 @@
+import subprocess
+import requests
 from flask import Flask, redirect
 from flask_login import LoginManager
+import threading
 
+import settings
 import user
 
 from login import login_blueprint
@@ -9,6 +13,7 @@ from warning_message import warning_message_blueprint
 from systeminfo import systeminfo_blueprint
 from system_setting import system_setting_blueprint
 from account import account_blueprint
+from attack_path_prediction import prediction_blueprint
 
 app = Flask(__name__)
 app.secret_key = 'hello_world'
@@ -19,6 +24,7 @@ app.register_blueprint(warning_message_blueprint)
 app.register_blueprint(systeminfo_blueprint)
 app.register_blueprint(system_setting_blueprint)
 app.register_blueprint(account_blueprint)
+app.register_blueprint(prediction_blueprint)
 
 login_manager = LoginManager(app)
 
@@ -36,5 +42,36 @@ def index():
     return redirect('/login')
 
 
+# @app.route('/test')
+# def test():
+#     data = ('37,udp,other,SF,6048,0,0,0,0,0,0,0.00,0.00,0.00,0.00,0.00,0.00,0.00,0,0,0.00,0.00,0.00,0.00,0.00,0.00,'
+#             '0.00,0.00,172.22.32.1,5353,224.0.0.251,5353,2023-05-22T08:58:42')
+#     url = 'http://127.0.0.1:5000/api/prediction'
+#
+#     requests.post(url, data={'data': data})
+#
+#     return ''
+
+def get_data():
+    process = subprocess.Popen(['./model_and_extractor/kdd99extractor', '-e'], stdout=subprocess.PIPE,
+                               stderr=subprocess.PIPE)
+    setting = settings.Settings()
+    url = 'http://' + 'setting.url' + '/api/prediction'
+
+    while True:
+        output = process.stdout.readline()
+        if output == b'' and process.poll() is not None:
+            break
+        if output:
+            data = output.decode().strip()
+            requests.post(url, data={'data': data})
+
+    print(f"致命错误，路径预测子线程已停止。子线程退出代码:{process.poll()}。程序已停止。")
+
+    exit(1)
+
+
 if __name__ == "__main__":
+    thread = threading.Thread(target=get_data)
+    thread.start()
     app.run(host="0.0.0.0", debug=True)

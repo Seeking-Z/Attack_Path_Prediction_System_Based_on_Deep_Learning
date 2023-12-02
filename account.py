@@ -1,5 +1,5 @@
 from flask import Blueprint, render_template, request, flash
-from flask_login import login_required, current_user, logout_user
+from flask_login import login_required, current_user
 from werkzeug.security import generate_password_hash
 
 import settings

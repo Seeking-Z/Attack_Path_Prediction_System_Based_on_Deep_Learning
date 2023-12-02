@@ -15,7 +15,7 @@ class Settings:
     """系统设置"""
 
     def __init__(self):
-        """数据库连接设置"""
+        # 数据库连接设置
         self.sqlserver = '127.0.0.1'
         self.database = '基于深度学习的攻击路径预测系统'
         self.sql_username = 'SA'
@@ -27,7 +27,10 @@ class Settings:
         self.message_table = 'message'
         self.message_table_columns = ['id', 'sip', 'sport', 'dip', 'dport', 'time', 'status', 'image']
 
-        """每种攻击的被入侵概率"""
+        # 获取到的流量数据发送到的主机
+        self.url = '127.0.0.1:5000'
+
+        # 每种攻击的被入侵概率
         self.status = {
             'Normal': 0,
             'DOS': 0.1,

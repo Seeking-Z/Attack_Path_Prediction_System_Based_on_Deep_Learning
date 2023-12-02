@@ -1,5 +1,3 @@
-import pyodbc
-from datetime import datetime
 import sqlserver
 import settings
 

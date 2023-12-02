@@ -1,24 +1,7 @@
-import datetime
-import pickle
 import networkx as nx
 import matplotlib.pyplot as plt
-import settings
 from io import BytesIO
 import base64
-import ids
-
-
-# def data_processing(data):
-#     """数据处理，返回特征值数组/源ip/源端口/目的ip/目的端口/时间"""
-#     data = data.split(',')
-#     feature = data[:-5]
-#     sip = data[-5]
-#     sport = data[-4]
-#     dip = data[-3]
-#     dport = data[-2]
-#     time = datetime.datetime.strptime(data[-1], "%Y-%m-%dT%H:%M:%S")
-#
-#     return feature, sip, sport, dip, dport, time
 
 
 def add_nodes_and_edges(g, sip, dip, status, setting):
@@ -110,7 +93,6 @@ def prediction(g, sip, dip, status, setting):
     neighbor_prediction(g, dip)
 
     return base64_graph(g)
-
 
 # data = ['37,udp,other,SF,6048,0,0,0,0,0,0,0.00,0.00,0.00,0.00,0.00,0.00,0.00,0,0,0.00,0.00,0.00,0.00,0.00,0.00,0.00,0.00,172.22.32.1,5353,224.0.0.251,5353,2023-05-22T08:58:42',
 #         '0,udp,domain_u,SF,138,179,0,0,0,0,0,0.00,0.00,0.00,0.00,0.00,0.00,0.00,0,0,0.00,0.00,0.00,0.00,0.00,0.00,0.00,0.00,172.22.43.47,44004,172.22.32.1,53,2023-05-22T08:58:31',
