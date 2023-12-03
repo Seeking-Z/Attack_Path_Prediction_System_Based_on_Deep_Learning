@@ -2,8 +2,88 @@
 
 {% block title %}告警信息{% endblock %}
 
+{% block expand %}
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='warning_message.css') }}">
+
+    <script>
+        function displayImage(imgSrc) {
+            var modal = document.getElementById('myModal');
+            var modalImg = document.getElementById('img01');
+            var span = document.getElementsByClassName('close')[0];
+
+            modal.style.display = 'block';
+            modalImg.src = imgSrc;
+
+            span.onclick = function() {
+                modal.style.display = 'none';
+            };
+
+            window.onclick = function(event) {
+                if (event.target === modal) {
+                    modal.style.display = 'none';
+                }
+            };
+        }
+    </script>
+{% endblock %}
+
 {% block subtitle %}告警信息{% endblock %}
 
 {% block container %}
-    <p>Hello World</p>
+    <table>
+        <thead>
+            <tr>
+                <th>源IP</th>
+                <th>源端口</th>
+                <th>目的IP</th>
+                <th>目的端口</th>
+                <th>时间</th>
+                <th>类型</th>
+                <th>路径预测</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for row in data %}
+                <tr>
+                    <td>{{ row[0] }}</td>
+                    <td>{{ row[1] }}</td>
+                    <td>{{ row[2] }}</td>
+                    <td>{{ row[3] }}</td>
+                    <td>{{ row[4] }}</td>
+                    <td>{{ row[5] }}</td>
+                    <td>
+                        <button onclick="displayImage('data:image/png;base64,{{ row[6] }}')">显示图片</button>
+                    </td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
+    <!-- Modal -->
+    <div id="myModal" class="modal">
+        <span class="close">&times;</span>
+        <img class="modal-content" id="img01">
+    </div>
+
+    <div class="pagination">
+        {% if page > 1 %}
+            <a href="?page={{ page - 1 }}">上一页</a>
+        {% else %}
+            <span>上一页</span>
+        {% endif %}
+
+        {% for page_num in range(1, total_page + 1) %}
+            {% if page_num == page %}
+                <a class="active" href="?page={{ page_num }}">{{ page_num }}</a>
+            {% else %}
+                <a href="?page={{ page_num }}">{{ page_num }}</a>
+            {% endif %}
+        {% endfor %}
+
+        {% if page < total_page %}
+            <a href="?page={{ page + 1 }}">下一页</a>
+        {% else %}
+            <span>下一页</span>
+        {% endif %}
+    </div>
 {% endblock %}

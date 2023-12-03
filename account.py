@@ -39,7 +39,7 @@ def account_modify():
         user_id = request.form['user_id']
     else:
         user_id = current_user.id
-    users = login_sqlserver.select_data(select_columns, f"id='{user_id}'")
+    users = login_sqlserver.select_data(select_columns, [select_columns[0], user_id])
     username = users[0][1]
     login_sqlserver.close()
     return render_template('account_modify.html', user_id=user_id, username=username, is_admin=is_admin)
@@ -76,12 +76,12 @@ def modify_user_process():
             columns[2]: password,
             columns[3]: admin
         }
-        if login_sqlserver.select_data(['username'], f"{columns[1]}='{username}'"):
+        if login_sqlserver.select_data(['username'], [columns[1], username]):
             return "<script>alert('用户名已存在');location.href='../account'</script>"
         if user_id == 'None':
             login_sqlserver.insert_data(data)
         else:
-            login_sqlserver.update_data(data, f"{columns[0]}={user_id}")
+            login_sqlserver.update_data(data, columns[0], user_id)
         login_sqlserver.close()
         return "<script>alert('成功');location.href='../account'</script>"
 
@@ -110,5 +110,5 @@ def account_delete():
     if current_user.id == int(user_id):
         return "<script>alert('无法删除当前使用的账户');location.href='../account'</script>"
     else:
-        login_sqlserver.delete_data(f"{columns[0]}='{user_id}'")
+        login_sqlserver.delete_data(columns[0], user_id)
         return "<script>alert('成功');location.href='../account'</script>"

@@ -56,34 +56,35 @@ class Sqlserver:
             print(f"Error during insert_data: {str(e)}")
             return False
 
-    def delete_data(self, condition):
+    def delete_data(self, column, condition):
         """
         删除数据
         table_name: 表名
+        column: 列名
         condition: 删除的条件，应为字符串
         """
-        query = f"DELETE FROM {self.table_name} WHERE {condition}"
+        query = f"DELETE FROM {self.table_name} WHERE {column}=?"
 
         try:
-            self.cursor.execute(query)
+            self.cursor.execute(query, (condition,))
             self.connection.commit()
         except Exception as e:
             self.connection.rollback()
             print(f"Error during delete_data: {str(e)}")
             return False
 
-    def update_data(self, data, condition):
+    def update_data(self, data, column, condition):
         """
         更新数据
         data: 要更新的数据，应为字典，键是要更新的列名，值是新的值
         condition: 更新的条件，应为字符串
         """
-        set_values = ', '.join([f"{column} = ?" for column in data.keys()])
-        query = f"UPDATE {self.table_name} SET {set_values} WHERE {condition}"
+        set_values = ', '.join([f"{col} = ?" for col in data.keys()])
+        query = f"UPDATE {self.table_name} SET {set_values} WHERE {column}=?"
         values = list(data.values())
 
         try:
-            self.cursor.execute(query, values)
+            self.cursor.execute(query, values + [condition,])
             self.connection.commit()
         except Exception as e:
             self.connection.rollback()
@@ -93,18 +94,24 @@ class Sqlserver:
     def select_data(self, columns, condition=None):
         """
         查询数据
-        columns: 要查询的列，可以是字符串或列表
-        condition: 查询条件，可选
+        columns: 要查询的列，应为列表或字符串
+        condition: 查询条件，可选。列表，第一个为列，第二个为值
         """
+
         if isinstance(columns, str):
             columns = [columns]
 
         query = f"SELECT {', '.join(columns)} FROM {self.table_name}"
+        values = None
         if condition:
-            query += f" WHERE {condition}"
+            query += " WHERE " + condition[0] + '=?'
+            values = [condition[1]]
 
         try:
-            self.cursor.execute(query)
+            if values:
+                self.cursor.execute(query, values)
+            else:
+                self.cursor.execute(query)
             rows = self.cursor.fetchall()
             return rows
         except Exception as e:
@@ -119,14 +126,15 @@ class Sqlserver:
 settings = settings.Settings()
 db = Sqlserver(settings.sqlserver, settings.database, settings.sql_username, settings.sql_password, "login")
 #   初始账号密码  admin zadmin2023
-in_data = {"username": "admin",
-           "password": "scrypt:32768:8"
-                       ":1$CwZM7K9pzo4ecW6i$2584b1fba5092c65a70a25db6d8befc5bbb2656d3ef24ad3fd4c264a155a01b560ca4e92c375efc8d3be7f4cfb54cff50247bee8f218c394cdbe40204905eb8d",
-           "admin": 1}
-db.insert_data(in_data)
-# result = db.select_data(["id", "username", "password"])
-# db.update_data({"password": "test123"}, "username='admin'")
-# db.delete_data("username='admin'")
+# in_data = {"username": "admin",
+#            "password": "scrypt:32768:8"
+#                        ":1$CwZM7K9pzo4ecW6i$2584b1fba5092c65a70a25db6d8befc5bbb2656d3ef24ad3fd4c264a155a01b560ca4e92c375efc8d3be7f4cfb54cff50247bee8f218c394cdbe40204905eb8d",
+#            "admin": 1}
+# db.insert_data(in_data)
+# result = db.select_data(["id", "username", "password"], ['id', 19])
+# print(result)
+# db.update_data({"password": "test123"}, "id",18)
+# db.delete_data("username",'admin')
 # print(result)
 # print(type(result[0][1]))
 # db.close()
