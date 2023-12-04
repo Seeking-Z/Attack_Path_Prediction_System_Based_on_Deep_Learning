@@ -27,8 +27,15 @@ class Settings:
         self.message_table = 'message'
         self.message_table_columns = ['id', 'sip', 'sport', 'dip', 'dport', 'time', 'status', 'image']
 
-        # 获取到的流量数据发送到的主机
-        self.url = '127.0.0.1:5000'
+        # 告警页面每页显示的条数
+        self.per_page = 10
+
+        # 本主机的监听IP和端口
+        self.host = '192.168.199.1'
+        self.port = '5000'
+
+        # 客户端所在的主机
+        self.clients = ['192.168.199.136']
 
         # 每种攻击的被入侵概率
         self.status = {

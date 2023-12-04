@@ -2,8 +2,135 @@
 
 {% block title %}主页{% endblock %}
 
+{% block expand %}
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='home.css') }}">
+{% endblock %}
+
 {% block subtitle %}主页{% endblock %}
 
 {% block container %}
-    <p>Hello World</p>
+    <div class="row">
+        <div class="column">
+            <!-- 当前主机信息 -->
+            <div class="block" id="systemInfoBlock">
+                <div>
+                    <h3>CPU使用率</h3>
+                    <div id="cpuUsage"></div>
+                </div>
+                <div>
+                    <h3>内存使用率</h3>
+                    <div id="memoryUsage"></div>
+                </div>
+                <div>
+                    <h3>发送数据量</h3>
+                    <div id="sent"></div>
+                </div>
+                <div>
+                    <h3>接收数据量</h3>
+                    <div id="recv"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="column">
+            <!-- 告警信息 -->
+            <div class="block_c">
+                <h2>告警信息</h2>
+                <table>
+                    <thead>
+                    <tr>
+                        <th>源IP</th>
+                        <th>目的IP</th>
+                        <th>时间</th>
+                        <th>类型</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    {% for row in data %}
+                        <tr>
+                            <td>{{ row[0] }}</td>
+                            <td>{{ row[2] }}</td>
+                            <td>{{ row[4] }}</td>
+                            <td>{{ row[5] }}</td>
+                        </tr>
+                    {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <div class="column">
+            <!-- 用户信息 -->
+            <div class="block_c">
+                <div class="module" id="public-module">
+                    <h2>账户信息</h2>
+                    <table class="custom-table">
+                        <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>用户名</th>
+                            <th>密码</th>
+                            <th>管理员账户</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        {% for id, username, admin in users %}
+                            {% if id == user_id %}
+                                <tr>
+                                    <td>{{ id }}</td>
+                                    <td>{{ username }}</td>
+                                    <td>******</td>
+                                    {% if admin == 1 %}
+                                        <td>是</td>
+                                    {% else %}
+                                        <td>否</td>
+                                    {% endif %}
+                                </tr>
+                            {% endif %}
+                        {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+
+                <!-- 需要管理员身份才可见的模块 -->
+                {% if is_admin %}
+                    <div class="module" id="admin-module">
+                        <div style="display: flex; justify-content: space-between; align-items: center;">
+                            <h2>用户列表</h2>
+                        </div>
+                        <table class="custom-table">
+                            <thead>
+                            <tr>
+                                <th>ID</th>
+                                <th>用户名</th>
+                                <th>密码</th>
+                                <th>管理员账户</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            {% for id, username, admin in users %}
+                                {% if loop.index <= 10 %}
+                                    <tr>
+                                        <td>{{ id }}</td>
+                                        <td>{{ username }}</td>
+                                        <td>******</td>
+                                        {% if admin == 1 %}
+                                            <td>是</td>
+                                        {% else %}
+                                            <td>否</td>
+                                        {% endif %}
+                                    </tr>
+                                {% endif %}
+                            {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+
+    <script src="{{ url_for('static', filename='home.js') }}"></script>
 {% endblock %}

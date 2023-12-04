@@ -12,7 +12,6 @@ warning_message_blueprint = Blueprint('warning_message', __name__)
 def warning_message():
     """跳转到告警页面"""
     page = request.args.get('page', 1, type=int)
-    per_page = 10  # 设置每页显示的数据条数
 
     setting = settings.Settings()
     message_sqlserver = sqlserver.Sqlserver(setting.sqlserver, setting.database, setting.sql_username,
@@ -20,12 +19,14 @@ def warning_message():
                                             setting.message_table)
     select_columns = setting.message_table_columns
     select_columns.pop(0)
+    per_page = setting.per_page
+
     # 获取数据
     total_data = message_sqlserver.select_data(select_columns)
 
     message_sqlserver.close()
 
-    total_page = len(total_data) // per_page + 1
+    total_page = len(total_data) // per_page
 
     if page > total_page:
         page = total_page

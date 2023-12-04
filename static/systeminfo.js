@@ -82,13 +82,13 @@ var networkChart = new Chart(document.getElementById('networkChart').getContext(
     data: {
         labels: [],  // 存储时间戳
         datasets: [{
-            label: '网络发送字节数',
+            label: '网络发送数据量',
             data: [],  // 存储发送字节数数据
             borderColor: 'rgba(255, 99, 132, 1)',
             fill: false
         },
             {
-                label: '网络接收字节数',
+                label: '网络接收数据量',
                 data: [],  // 存储接收字节数数据
                 borderColor: 'rgba(75, 192, 192, 1)',
                 fill: false
@@ -127,7 +127,7 @@ setInterval(function () {
             memoryChart.data.datasets[0].data.push(data.memory_percent);
             memoryChart.update();
 
-            // 更新GPU图表 - 如果有GPU信息的话
+            // 更新GPU图表
             if (data.gpu_info) {
                 // 假设 GPU 数据是一个数组，包含负载和内存使用率
                 data.gpu_info.forEach(gpu => {
@@ -138,7 +138,7 @@ setInterval(function () {
                 gpuChart.update();
             }
 
-            // 更新网络图表 - 如果有网络信息的话
+            // 更新网络图表
             if (data.bytes_sent && data.bytes_recv) {
                 // 更新发送字节数
                 networkChart.data.labels.push(timestamp);

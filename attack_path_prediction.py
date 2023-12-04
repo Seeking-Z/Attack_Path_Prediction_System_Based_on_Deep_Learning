@@ -60,21 +60,24 @@ def prediction_process():
 
     status = ids.get_label(feature)  # 获取入侵检测返回的状态
 
-    if status == 'Normal':
-        prediction.prediction(g, sip, dip, status, setting)  # 只传入数据
+    if dip == setting.host and dport == setting.port and sip in setting.clients:
+        status = 'Normal'
     else:
-        image = prediction.prediction(g, sip, dip, status, setting)  # 返回攻击路径预测的图片
+        if status == 'Normal':
+            prediction.prediction(g, sip, dip, status, setting)  # 只传入数据
+        else:
+            image = prediction.prediction(g, sip, dip, status, setting)  # 返回攻击路径预测的图片
 
-        in_data = {
-            columns[1]: sip,
-            columns[2]: sport,
-            columns[3]: dip,
-            columns[4]: dport,
-            columns[5]: time,
-            columns[6]: status,
-            columns[7]: image
-        }
-        login_sqlserver.insert_data(in_data)
+            in_data = {
+                columns[1]: sip,
+                columns[2]: sport,
+                columns[3]: dip,
+                columns[4]: dport,
+                columns[5]: time,
+                columns[6]: status,
+                columns[7]: image
+            }
+            login_sqlserver.insert_data(in_data)
 
     try:
         with open('gdata.pickle', 'wb') as file:

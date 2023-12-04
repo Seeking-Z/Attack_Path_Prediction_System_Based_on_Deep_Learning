@@ -48,7 +48,7 @@ def get_label(feature):
     通过特征值列表获取预测的标签
     """
     model = DNN()
-    model.load_state_dict(torch.load('./model_and_extractor/best_model_params.pt'))
+    model.load_state_dict(torch.load('model/best_model_params.pt'))
     model.eval()
 
     # 将标签转换为编码
@@ -66,7 +66,7 @@ def get_label(feature):
     feature = feature.reshape(1, -1)
 
     # 导入缩放器参数，读取训练时的MinMaxScaler实例进行归一化
-    with open('./model_and_extractor/scaler_params.pkl', 'rb') as file:
+    with open('model/scaler_params.pkl', 'rb') as file:
         scaler = pickle.load(file)
     feature = scaler.transform(feature)
 

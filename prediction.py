@@ -53,20 +53,25 @@ def neighbor_prediction(g, node):
 
     for i, j in neighbors:
         percent = g.nodes[j]['connect'] / sum_connect * g.nodes[i]['percent']
+        percent = round(percent * 100, 2)
         if percent > g.edges[(i, j)]['percent']:
             g.edges[(i, j)]['percent'] = percent
 
 
 def base64_graph(g):
     """将图绘制并转为base64编码"""
-    pos = nx.circular_layout(g)
+    plt.clf()
+
+    pos = nx.spring_layout(g)
 
     # 获取节点和边的属性
     node_labels = nx.get_node_attributes(g, 'percent')
     edge_labels = nx.get_edge_attributes(g, 'percent')
 
     # 设置换行
-    node_labels_wrap = {k: f"{k}\n{v}" for k, v in node_labels.items()}
+    node_labels_wrap = {k: f"{k}\n{round(v * 100, 2)}" for k, v in node_labels.items()}
+
+    plt.figure(figsize=(8, 6))
 
     # 绘制图形和节点，显示标签换行
     nx.draw(g, pos, with_labels=False)
