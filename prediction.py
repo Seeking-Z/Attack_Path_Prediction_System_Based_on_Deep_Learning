@@ -1,5 +1,7 @@
 import networkx as nx
-import matplotlib.pyplot as plt
+import matplotlib
+matplotlib.use('Agg')
+from matplotlib import pyplot as plt
 from io import BytesIO
 import base64
 

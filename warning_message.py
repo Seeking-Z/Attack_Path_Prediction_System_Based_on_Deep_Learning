@@ -26,7 +26,7 @@ def warning_message():
 
     message_sqlserver.close()
 
-    total_page = len(total_data) // per_page
+    total_page = len(total_data) // per_page + 1
 
     if page > total_page:
         page = total_page
@@ -34,7 +34,8 @@ def warning_message():
     if len(total_data) < per_page:
         data = total_data[::-1]
     else:
-        data = total_data[:-page * per_page]
-        data = data[-per_page:]
+        data = total_data[-page * per_page:]
+        data = data[:per_page]
+        data = data[::-1]
 
     return render_template('warning_message.html', data=data, page=page, total_page=total_page)
