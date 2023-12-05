@@ -18,6 +18,7 @@ def account():
                                           setting.sql_password,
                                           setting.login_and_user_table)
     select_columns = setting.login_and_user_table_columns
+    select_columns.pop(-1)
     select_columns.pop(2)
     user_id = current_user.id
     users = login_sqlserver.select_data(select_columns)
@@ -70,6 +71,7 @@ def modify_user_process():
                                               setting.sql_password,
                                               setting.login_and_user_table)
         columns = setting.login_and_user_table_columns
+        before_username = login_sqlserver.select_data(columns, [columns[0], user_id])[0][1]
         password = generate_password_hash(new_password)
         data = {
             columns[1]: username,
@@ -77,7 +79,8 @@ def modify_user_process():
             columns[3]: admin
         }
         if login_sqlserver.select_data(['username'], [columns[1], username]):
-            return "<script>alert('用户名已存在');location.href='../account'</script>"
+            if login_sqlserver.select_data(['username'], [columns[1], username])[0][0] != before_username:
+                return "<script>alert('用户名已存在');location.href='../account'</script>"
         if user_id == 'None':
             login_sqlserver.insert_data(data)
         else:

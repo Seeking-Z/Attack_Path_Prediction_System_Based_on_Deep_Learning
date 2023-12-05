@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>二次验证</title>
+
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='login_verification.css') }}">
+
+</head>
+<body>
+    <div class="container">
+        <h2>二步验证</h2>
+        {% if flag == 1 %}
+            <div class="part1" id="part1">
+                <h3>首次登录请开启二步验证</h3>
+                <img src="data:image/png;base64,{{ the_img }}">
+            </div>
+        {% endif %}
+
+        <div>
+            <form action="/login/verification_process" method="post" id="part2">
+                <input type="hidden" name="id" value="{{ id }}">
+                <input type="hidden" name="data" value="{{ data }}">
+                <input type="hidden" name="first" value="{{ flag }}">
+                <input type="text" name="code" placeholder="请输入验证码">
+                <button type="submit">提交</button>
+            </form>
+        </div>
+    </div>
+</body>
+</html>

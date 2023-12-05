@@ -10,3 +10,5 @@ pyodbc==4.0.39
 torch==2.0.1
 Werkzeug==3.0.1
 requests~=2.31.0
+pyotp~=2.9.0
+qrcode~=7.4.2

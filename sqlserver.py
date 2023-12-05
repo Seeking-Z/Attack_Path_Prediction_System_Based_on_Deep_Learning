@@ -1,4 +1,7 @@
 """
+建立数据库
+CREATE DATABASE 基于深度学习的攻击路径预测系统
+
 建表语句
 登录表
 CREATE TABLE login
@@ -6,7 +9,8 @@ CREATE TABLE login
     id INT PRIMARY KEY IDENTITY(1,1),
     username NVARCHAR(255),
     password NVARCHAR(255),
-    admin int
+    admin int,
+    secret_key NVARCHAR(50)
 )
 
 信息表
@@ -77,7 +81,8 @@ class Sqlserver:
         """
         更新数据
         data: 要更新的数据，应为字典，键是要更新的列名，值是新的值
-        condition: 更新的条件，应为字符串
+        column: 更新条件的列名
+        condition: 更新的条件
         """
         set_values = ', '.join([f"{col} = ?" for col in data.keys()])
         query = f"UPDATE {self.table_name} SET {set_values} WHERE {column}=?"
@@ -123,9 +128,9 @@ class Sqlserver:
         self.connection.close()
 
 
-settings = settings.Settings()
-db = Sqlserver(settings.sqlserver, settings.database, settings.sql_username, settings.sql_password, "login")
-#   初始账号密码  admin zadmin2023
+# 初始账号密码  admin zadmin2023
+# settings = settings.Settings()
+# db = Sqlserver(settings.sqlserver, settings.database, settings.sql_username, settings.sql_password, "login")
 # in_data = {"username": "admin",
 #            "password": "scrypt:32768:8"
 #                        ":1$CwZM7K9pzo4ecW6i$2584b1fba5092c65a70a25db6d8befc5bbb2656d3ef24ad3fd4c264a155a01b560ca4e92c375efc8d3be7f4cfb54cff50247bee8f218c394cdbe40204905eb8d",

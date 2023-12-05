@@ -22,7 +22,7 @@ class Settings:
         self.sql_password = '12@plokmnPLOKMN'
 
         self.login_and_user_table = 'login'
-        self.login_and_user_table_columns = ['id', 'username', 'password', 'admin']
+        self.login_and_user_table_columns = ['id', 'username', 'password', 'admin', 'secret_key']
 
         self.message_table = 'message'
         self.message_table_columns = ['id', 'sip', 'sport', 'dip', 'dport', 'time', 'status', 'image']
@@ -46,3 +46,6 @@ class Settings:
             'U2R': 0.8,
             'Down': 1  # 被攻陷
         }
+
+        # 验证时的盐值
+        self.salt = "verification"

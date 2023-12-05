@@ -33,6 +33,7 @@ def home():
                                           setting.sql_password,
                                           setting.login_and_user_table)
     select_columns = setting.login_and_user_table_columns
+    select_columns.pop(-1)
     select_columns.pop(2)
     user_id = current_user.id
     users = login_sqlserver.select_data(select_columns)
