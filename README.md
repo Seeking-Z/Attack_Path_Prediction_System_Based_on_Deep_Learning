@@ -11,12 +11,12 @@ Seeking-Z
 `https://github.com/Seeking-Z/KDD99-DeepLearning`  
 -----------------
 # 环境约束 #   
-
 以下是开发环境
 服务端使用`Windows 11`，客户端使用`Ubuntu 22.04`。服务端拥有`Docker`。服务端和客户端都使用`Python 3.11`。  
 如须将服务端移动到`Linux`上使用，请自行修改`sqlserver.py`文件，使其可以与数据库交互。  
 如不使用`Docker`，可以在`sqlserver.py`中找到建库和建表语句，请自行建立数据库。  
 本系统会进行二步验证，请自行下载身份认证器之类的软件。
+
 ---------------------
 # 安装 #  
 服务端  
